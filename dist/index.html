@@ -4,6 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gemini Nano</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="preload" href="/assets/fonts/Avenir-Roman.woff2" as="font" type="font/woff2" crossorigin />
+    <script type="module" src="/assets/js/api-support.js"></script>
+    <script src="/assets/js/writer.js" type="module" defer></script>
+    <script src="/assets/js/rewriter.js" type="module" defer></script>
+    <script src="/assets/js/summarizer.js" type="module" defer></script>
+    <script src="/assets/js/language-detector.js" type="module" defer></script>
+    <script src="/assets/js/translator.js" type="module" defer></script>
+    <script src="/assets/js/prompt.js" type="module" defer></script>
+    <script src="/assets/js/proofreader.js" type="module" defer></script>
   </head>
-  <body></body>
+  <body>
+    <api-support writer rewriter summarizer language-detector translator prompt proofreader></api-support>
+  </body>
 </html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gemini Nano</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="preload" href="/assets/fonts/Avenir-Roman.woff2" as="font" type="font/woff2" crossorigin />
+    <script type="module" src="/assets/js/api-support.js"></script>
+    <script src="/assets/js/prompt.js" type="module" defer></script>
+  </head>
+  <body>
+    <api-support prompt></api-support>
+    <h1>Prompt write poem</h1>
+    <div class="twocol">
+      <div>
+        <button id="write">Write</button>
+      </div>
+      <div>
+        <p id="message"></p>
+        <pre id="result"></pre>
+      </div>
+    </div>
+    <script>
+      const button = document.querySelector("#write");
+      button.addEventListener("click", async () => {
+        document.querySelector("#message").textContent = "Poeting ...";
+        document.querySelector("#result").textContent = "";
+        const startTime = performance.now();
+        const session = await LanguageModel.create();
+
+        const stream = session.promptStreaming([
+          {
+            role: "user",
+            content: [
+              {
+                type: "text",
+                value: "Write me a very short poem about the NASA Gemini Space Program.",
+              },
+            ],
+          },
+        ]);
+        for await (const chunk of stream) {
+          // console.log(chunk);
+          document.querySelector("#result").textContent += chunk;
+        }
+        const endTime = performance.now();
+        const seconds = ((endTime - startTime) / 1000).toFixed(2);
+        // document.querySelector("#message").style.visibility = "hidden";
+        document.querySelector("#message").textContent = `Done in ${seconds} seconds!`;
+
+        console.log(`Request took ${seconds} seconds`);
+      });
+    </script>
+  </body>
+</html>

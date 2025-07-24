@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gemini Nano</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="preload" href="/assets/fonts/Avenir-Roman.woff2" as="font" type="font/woff2" crossorigin />
+    <script type="module" src="/assets/js/api-support.js"></script>
+    <script src="/assets/js/prompt.js" type="module" defer></script>
+    <style>
+      html {
+        background-image: url(/assets/img/step.jpg);
+        background-size: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <api-support prompt></api-support>
+    <h1>Prompt audio transcribe (multimodal)</h1>
+    <button id="transcribe">Transcribe</button>
+    <audio id="audioElement" controls src="/assets/audio/neil.mp3"></audio>
+    <div id="message"></div>
+    <pre id="logs"></pre>
+    <script type="module">
+      const button = document.querySelector("#transcribe");
+      //   const audioElement = document.querySelector("#audioElement");
+      const message = document.querySelector("#message");
+      button.onclick = async () => {
+        let startTime;
+        try {
+          const blob = await (await fetch("/assets/audio/neil.mp3")).blob();
+          startTime = performance.now();
+          await transcribe(blob);
+        } catch (error) {
+          log(error);
+        } finally {
+          const endTime = performance.now();
+          const seconds = ((endTime - startTime) / 1000).toFixed(2);
+          message.textContent = `Done in ${seconds} seconds!`;
+        }
+      };
+
+      async function transcribe(blob) {
+        logs.textContent = "";
+        message.textContent = "Transcribing ...";
+        const arrayBuffer = await blob.arrayBuffer();
+
+        const params = await LanguageModel.params();
+        const session = await LanguageModel.create({
+          expectedInputs: [{ type: "audio" }],
+          temperature: 0.1,
+          topK: params.defaultTopK,
+        });
+
+        const stream = session.promptStreaming([
+          {
+            role: "user",
+            content: [
+              { type: "text", value: "transcribe this audio" },
+              { type: "audio", value: arrayBuffer },
+            ],
+          },
+        ]);
+        for await (const chunk of stream) {
+          logs.append(chunk);
+        }
+      }
+
+      function log(text) {
+        logs.append(`${text}\r\n`);
+      }
+    </script>
+  </body>
+</html>

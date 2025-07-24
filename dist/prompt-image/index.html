@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gemini Nano</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="preload" href="/assets/fonts/Avenir-Roman.woff2" as="font" type="font/woff2" crossorigin />
+    <script type="module" src="/assets/js/api-support.js"></script>
+    <script src="/assets/js/prompt.js" type="module" defer></script>
+    <style>
+      img {
+        max-width: 400px;
+        max-height: 400px;
+      }
+      pre {
+        max-width: 600px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <api-support prompt></api-support>
+    <h1>Prompt image describe (multimodal)</h1>
+      <div>
+        <figure>
+        <img src="/assets/img/gemini5.jpg" alt="Astronaut Charles Conrad Jr. tweaks astronaut L. Gordon Cooper's eight-day growth of beard for the cameramen while onboard the prime recovery vessel after their Gemini-5 flight." />
+      <figcaption>
+        <strong>29 Augustus 1965</strong>Astronaut Charles Conrad Jr. tweaks astronaut L. Gordon Cooper's eight-day growth of beard while onboard the prime recovery vessel after their Gemini-5 flight.
+        </figcaption>  
+      </figure>
+        <button id="describe">Describe</button>
+      </div>
+      <div>
+        <pre id="result"></pre>
+      </div>
+    </div>
+    <script>
+      const button = document.querySelector("#describe");
+
+      button.addEventListener("click", async () => {
+        const startTime = performance.now();
+        const session = await LanguageModel.create({
+          expectedInputs: [{ type: "audio" }, { type: "image" }],
+        });
+
+        const referenceImage = await (await fetch("/assets/img/gemini5.jpg")).blob();
+
+        const stream = session.promptStreaming([
+          {
+            role: "user",
+            content: [
+              {
+                type: "text",
+                value: "Create a description of the image in high detail, but do not use more than 150 words.",
+              },
+              { type: "image", value: referenceImage },
+            ],
+          },
+        ]);
+        for await (const chunk of stream) {
+          // console.log(chunk);
+          document.querySelector("#result").textContent += chunk;
+        }
+
+        for await (const chunk of stream) {
+          // console.log(chunk);
+          document.querySelector("#result").textContent += chunk;
+        }
+        const endTime = performance.now();
+        const seconds = ((endTime - startTime) / 1000).toFixed(2);
+        console.log(`${session.inputUsage}/${session.inputQuota}`);
+        console.log(`Request took ${seconds} seconds`);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gemini Nano</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <script src="../assets/js/proofreader.js" type="module" defer></script>
+  </head>
+  <body>
+    <div id="status-container">
+      <div>Proofreader API <span id="proofreader-status"></span> <input type="button" id="proofreader-download" value="Download Proofreader" hidden/></span></div>
+    </div>
+
+    <section id="proofreader-container" >
+      <h2>Proofreader API</h2>
+      <form id="proofreader-form">
+        <div>
+          <label for="proofreader-input">Input</label>
+          <textarea id="proofreader-input" name="input">nasa gemini was go to space before apollo and have two people inside the ship they flying around earth many times, doing many test like docking and spacewalks it was very important for learn how to go moon later but sometime they having problem with engine or communication but still it was big succes for nasa and america space.</textarea>
+        </div>
+        <button type="submit">Proofread</button>
+      </form>
+      <output id="proofreader-output" class="output"></output>
+    </section>
+  </body>
+</html>

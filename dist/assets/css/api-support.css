@@ -1,0 +1,80 @@
+.hide {
+  display: none !important;
+}
+
+.show {
+  display: flex !important;
+}
+
+#status-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  div:not([hidden]) {
+    display: flex;
+    gap: 8px;
+    span:first-child {
+      display: inline-block;
+      width: 180px;
+    }
+  }
+}
+.status {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  width: 150px;
+  text-align: center;
+  color: white;
+}
+
+.status-checking {
+  background-color: gray;
+  animation: pulse 2s infinite;
+}
+
+.status-available {
+  background-color: green;
+}
+
+.status-unavailable,
+.status-not-supported {
+  background-color: red;
+}
+.status-downloadable {
+  background-color: orange;
+  color: black;
+}
+.status-downloading {
+  background-color: blue;
+  color: white;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+button:not([hidden]) {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 26px;
+    height: 26px;
+    fill: currentColor;
+  }
+}

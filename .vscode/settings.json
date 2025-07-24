@@ -1,0 +1,13 @@
+{
+  "workbench.colorTheme": "Monokai Pro",
+  // "workbench.colorTheme": "Monokai Pro Light",
+  "files.autoSave": "onFocusChange",
+  "workbench.colorCustomizations": {
+    // "editor.background": "#000",
+  },
+  "prettier.printWidth": 250,
+  "editor.formatOnSave": true,
+  "editor.fontSize": 14,
+  "editor.fontFamily": "'Mono Lisa', Menlo, Monaco, 'Courier New', monospace",
+  "editor.renderWhitespace": "trailing"
+}

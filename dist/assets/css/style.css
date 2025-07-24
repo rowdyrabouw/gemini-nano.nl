@@ -1,0 +1,29 @@
+@font-face {
+  font-family: "Avenir";
+  src: url("../fonts/Avenir-Roman.woff2") format("woff2"), url("../fonts/Avenir-Roman.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: "Avenir", sans-serif;
+  background-color: rgb(21, 26, 41);
+  color: rgb(255, 255, 255);
+  font-size: 1rem;
+  margin: 0;
+  padding: 20px;
+}
+
+textarea {
+  field-sizing: content;
+}
+
+pre {
+  max-width: 600px;
+  white-space: pre-wrap;
+}
+
+.error {
+  color: red;
+}
