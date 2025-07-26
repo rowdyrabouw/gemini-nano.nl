@@ -4,6 +4,7 @@ const apiSupport = document.querySelector("api-support");
 const languageDetectorStatus = apiSupport.shadowRoot.querySelector("#language-detector-status");
 const languageDetectorDownloadButton = apiSupport.shadowRoot.querySelector("#language-detector-download");
 const languageDetectorError = document.querySelector("#language-detector-error");
+const languageDetectorInfo = document.querySelector("#language-detector-info");
 const languageDetectorForm = document.querySelector("#language-detector-form");
 const languageDetectorOutput = document.querySelector("#language-detector-output");
 const translatorContainer = document.querySelector("#translator-container");
@@ -59,16 +60,27 @@ if (languageDetectorForm) {
       return;
     }
 
+    languageDetectorInfo.textContent = "Detecting language ...";
     languageDetectorOutput.textContent = "";
 
     const formData = new FormData(languageDetectorForm);
+    const startTime = performance.now();
     languageDetector = await LanguageDetector.create();
     const result = await languageDetector.detect(formData.get("prompt").trim());
     result.forEach((item) => {
       const languageName = languages[item.detectedLanguage] || item.detectedLanguage;
       languageDetectorOutput.innerHTML += `<p>${languageName} (${(item.confidence * 100).toFixed(4)}%)</p>`;
     });
-
+    const endTime = performance.now();
+    const seconds = ((endTime - startTime) / 1000).toFixed(4);
+    languageDetectorInfo.textContent = `Done in ${seconds} seconds!`;
+    console.info(`Request took ${seconds} seconds`);
     translatorContainer.hidden = false;
+    const detectedLanguage = result.reduce((prev, current) => (prev.confidence > current.confidence ? prev : current));
+    const sourceLanguageRadio = document.querySelector(`[name='source-language'][value='${detectedLanguage.detectedLanguage}']`);
+    if (sourceLanguageRadio) {
+      sourceLanguageRadio.checked = true;
+      console.info("Source language set to:", detectedLanguage.detectedLanguage);
+    }
   });
 }

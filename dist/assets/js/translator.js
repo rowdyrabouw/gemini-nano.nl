@@ -5,6 +5,7 @@ const translatorStatus = apiSupport.shadowRoot.querySelector("#translator-status
 const translatorDownloadButton = apiSupport.shadowRoot.querySelector("#translator-download");
 const translatorForm = document.querySelector("#translator-form");
 const translatorError = document.querySelector("#translator-error");
+const translatorInfo = document.querySelector("#translator-info");
 const translatorOutput = document.querySelector("#translator-output");
 
 let availability;
@@ -63,17 +64,22 @@ if (translatorForm) {
       return;
     }
 
-    translatorOutput.textContent = "Translating...";
+    translatorInfo.textContent = "Thinking ...";
+    translatorOutput.textContent = "";
+    translatorError.classList.remove("error");
+    translatorError.textContent = "";
 
     const formData = new FormData(translatorForm);
     const options = {
       sourceLanguage: formData.get("source-language"),
       targetLanguage: formData.get("target-language"),
     };
+    const startTime = performance.now();
     try {
       translator = await Translator.create(options);
     } catch (error) {
       if (error.name === "NotSupportedError") {
+        translatorInfo.textContent = "";
         translatorError.classList.add("error");
         translatorError.textContent = `Unable to translate from ${languages[options.sourceLanguage]} to ${languages[options.targetLanguage]}.`;
         return;
@@ -84,7 +90,12 @@ if (translatorForm) {
     const stream = translator.translateStreaming(formData.get("prompt").trim());
     translatorOutput.textContent = "";
     for await (const chunk of stream) {
+      translatorInfo.textContent = "Writing ...";
       translatorOutput.append(chunk);
     }
+    const endTime = performance.now();
+    const seconds = ((endTime - startTime) / 1000).toFixed(2);
+    translatorInfo.textContent = `Done in ${seconds} seconds!`;
+    console.info(`Request took ${seconds} seconds`);
   });
 }

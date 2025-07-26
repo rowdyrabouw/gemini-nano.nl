@@ -24,7 +24,7 @@
         <form id="writer-form">
           <div>
             <label for="writer-prompt">Prompt</label>
-            <textarea id="writer-prompt" name="prompt">Write an article about the NASA Gemini Space Program</textarea>
+            <textarea id="writer-prompt" name="prompt">Write an article about the NASA Gemini Space Program and make sure paragraphs have titles and use some bullit lists</textarea>
           </div>
           <div>
             <fieldset>
@@ -75,11 +75,12 @@
           </div>
           <button type="submit">Write</button>
         </form>
-        <div id="writer-error" aria-atomic="true" aria-live="assertive"></div>
-        <pre id="writer-output" class="output" aria-atomic="true" aria-live="polite"></pre>
+        <p id="writer-error" aria-atomic="true" aria-live="assertive"></p>
+        <p id="writer-info" aria-atomic="true" aria-live="polite"></p>
+        <pre id="writer-output" class="output" aria-atomic="false" aria-live="polite"></pre>
       </section>
 
-      <section id="rewriter-container">
+      <section id="rewriter-container" hidden>
         <h2>Rewriter API</h2>
         <form id="rewriter-form">
           <div>
@@ -139,11 +140,12 @@
             </div>
           <button type="submit">Rewrite</button>
         </form>
-        <div id="rewriter-error" aria-atomic="true" aria-live="assertive"></div>
+        <p id="rewriter-error" aria-atomic="true" aria-live="assertive"></p>
+        <p id="rewriter-info" aria-atomic="true" aria-live="polite"></p>
         <pre id="rewriter-output" class="output" aria-atomic="true" aria-live="polite"></pre>
       </section>
 
-      <section id="summarizer-container">
+      <section id="summarizer-container" hidden>
         <h2>Summarizer API</h2>
         <form id="summarizer-form">
           <div>
@@ -207,69 +209,146 @@
             </div>
           <button type="submit">Summarize</button>
         </form>
-        <div id="summarizer-error" aria-atomic="true" aria-live="assertive"></div>
+        <p id="summarizer-error" aria-atomic="true" aria-live="assertive"></p>
+        <p id="summarizer-info" aria-atomic="true" aria-live="polite"></p>
         <pre id="summarizer-output" class="output" aria-atomic="true" aria-live="polite"></pre>
       </section>
 
-      <section id="language-detector-container">
+      <section id="language-detector-container" hidden>
         <h2>Language Detector API</h2>
         <form id="language-detector-form">
           <div>
             <label for="language-detector-prompt">Prompt</label>
-            <textarea id="language-detector-prompt" name="prompt">* The NASA Gemini program served as a test run for the Apollo missions by simulating space exploration and providing training for astronauts and engineers.
-            * The program focused on developing technologies like accurate rocket launch systems and lunar docking procedures, crucial for the Apollo missions' success.
-            * Gemini also provided hands-on experience for astronauts and engineers in tasks such as lunar surface operations, sample collection, and experiments, essential for the Apollo missions' goals.</textarea>
+            <textarea id="language-detector-prompt" name="prompt"></textarea>
           </div>
           <button type="submit">Detect Language</button>
         </form>
-        <div id="language-detector-error" aria-atomic="true" aria-live="assertive"></div>
+        <p id="language-detector-error" aria-atomic="true" aria-live="assertive"></p>
+        <p id="language-detector-info" aria-atomic="true" aria-live="polite"></p>
         <pre id="language-detector-output" class="output" aria-atomic="true" aria-live="polite"></pre>
       </section>
 
-      <section id="translator-container">
+      <section id="translator-container" hidden>
         <h2>Translator API</h2>
         <form id="translator-form">
           <div>
             <label for="translator-prompt">Prompt</label>
-            <textarea id="translator-prompt" name="prompt">The NASA Gemini program served as a test run for the Apollo missions by simulating space exploration and providing training for astronauts and engineers.</textarea>
+            <textarea id="translator-prompt" name="prompt"></textarea>
           </div>
           <div>
-            <label for="translator-source-language">Source Language</label>
-            <select id="translator-source-language" name="source-language">
-              <option value="en" selected>English</option>
-              <option value="nl">Dutch</option>
-              <option value="fr">French</option>
-              <option value="de">German</option>
-              <option value="es">Spanish</option>
-              <option value="it">Italian</option>
-              <option value="pt">Portuguese</option>
-              <option value="ga">Irish</option>
-              <option value="ja">Japanese</option>
-              <option value="zh">Chinese</option>
-              <option value="ar">Arabic</option>
-              <option value="no">Norwegian</option>
-            </select>
+            <fieldset>
+              <legend>Source Language</legend>
+              <div>
+                <label>
+                  <input type="radio" name="source-language" value="ar">
+                  Arabic
+                </label>
+                <label>
+                  <input type="radio" name="source-language" value="zh">
+                  Chinese
+                </label>
+                <label>
+                  <input type="radio" name="source-language" value="nl">
+                  Dutch
+                </label>
+                <label>
+                  <input type="radio" name="source-language" value="en">
+                  English
+                </label>
+                <label>
+                  <input type="radio" name="source-language" value="fr">
+                  French
+                </label>
+                <label>
+                  <input type="radio" name="source-language" value="de">
+                  German
+                </label>
+                <label>
+                  <input type="radio" name="source-language" value="ga">
+                  Irish
+                </label>
+                <label>
+                  <input type="radio" name="source-language" value="it">
+                  Italian
+                </label>
+                <label>
+                  <input type="radio" name="source-language" value="ja">
+                  Japanese
+                </label>
+                <label>
+                  <input type="radio" name="source-language" value="no">
+                  Norwegian
+                </label>
+                <label>
+                  <input type="radio" name="source-language" value="pt">
+                  Portuguese
+                </label>
+                <label>
+                  <input type="radio" name="source-language" value="es">
+                  Spanish
+                </label>
+              </div>
+            </fieldset>
           </div>
           <div>
-            <label for="translator-target-language">Target Language</label>
-            <select id="translator-target-language" name="target-language">
-              <option value="en">English</option>
-              <option value="nl">Dutch</option>
-              <option value="fr">French</option>
-              <option value="de">German</option>
-              <option value="es">Spanish</option>
-              <option value="it">Italian</option>
-              <option value="pt">Portuguese</option>
-              <option value="ga">Irish</option>
-              <option value="ja"selected>Japanese</option>
-              <option value="zh">Chinese</option>
-              <option value="ar">Arabic</option>
-              <option value="no">Norwegian</option>
-            </select>
+            <fieldset>
+              <legend>Target Language</legend>
+              <div>
+                <label>
+                  <input type="radio" name="target-language" value="ar">
+                  Arabic
+                </label>
+                <label>
+                  <input type="radio" name="target-language" value="zh">
+                  Chinese
+                </label>
+                <label>
+                  <input type="radio" name="target-language" value="nl">
+                  Dutch
+                </label>
+                <label>
+                  <input type="radio" name="target-language" value="en">
+                  English
+                </label>
+                <label>
+                  <input type="radio" name="target-language" value="fr">
+                  French
+                </label>
+                <label>
+                  <input type="radio" name="target-language" value="de">
+                  German
+                </label>
+                <label>
+                  <input type="radio" name="target-language" value="ga">
+                  Irish
+                </label>
+                <label>
+                  <input type="radio" name="target-language" value="it">
+                  Italian
+                </label>
+                <label>
+                  <input type="radio" name="target-language" value="ja">
+                  Japanese
+                </label>
+                <label>
+                  <input type="radio" name="target-language" value="no">
+                  Norwegian
+                </label>
+                <label>
+                  <input type="radio" name="target-language" value="pt">
+                  Portuguese
+                </label>
+                <label>
+                  <input type="radio" name="target-language" value="es">
+                  Spanish
+                </label>
+              </div>
+            </fieldset>
           </div>
           <button type="submit">Translate</button>
         </form>
-        <div id="translator-error" aria-atomic="true" aria-live="assertive"></div>
+        <p id="translator-error" aria-atomic="true" aria-live="assertive"></p>
+        <p id="translator-info" aria-atomic="true" aria-live="polite"></p>
         <pre id="translator-output" class="output" aria-atomic="true" aria-live="polite"></pre>
       </section>
 

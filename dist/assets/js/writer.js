@@ -2,6 +2,7 @@ const apiSupport = document.querySelector("api-support");
 const writerStatus = apiSupport.shadowRoot.querySelector("#writer-status");
 const writerDownloadButton = apiSupport.shadowRoot.querySelector("#writer-download");
 const writerError = document.querySelector("#writer-error");
+const writerInfo = document.querySelector("#writer-info");
 const writerForm = document.querySelector("#writer-form");
 const writerOutput = document.querySelector("#writer-output");
 const rewriterContainer = document.querySelector("#rewriter-container");
@@ -58,6 +59,7 @@ if (writerForm) {
       return;
     }
 
+    writerInfo.textContent = "Thinking ...";
     writerOutput.textContent = "";
     rewriterPrompt.textContent = "";
 
@@ -67,12 +69,18 @@ if (writerForm) {
       format: formData.get("format"),
       length: formData.get("length"),
     };
+    const startTime = performance.now();
     writer = await Writer.create(options);
     const stream = writer.writeStreaming(formData.get("prompt").trim());
     for await (const chunk of stream) {
+      writerInfo.textContent = "Writing ...";
       writerOutput.append(chunk);
       rewriterPrompt.append(chunk);
     }
+    const endTime = performance.now();
+    const seconds = ((endTime - startTime) / 1000).toFixed(2);
+    writerInfo.textContent = `Done in ${seconds} seconds!`;
+    console.info(`Request took ${seconds} seconds`);
     rewriterContainer.hidden = false;
   });
 }

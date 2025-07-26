@@ -2,10 +2,12 @@ const apiSupport = document.querySelector("api-support");
 const summarizerStatus = apiSupport.shadowRoot.querySelector("#summarizer-status");
 const summarizerDownloadButton = apiSupport.shadowRoot.querySelector("#summarizer-download");
 const summarizerError = document.querySelector("#summarizer-error");
+const summarizerInfo = document.querySelector("#summarizer-info");
 const summarizerForm = document.querySelector("#summarizer-form");
 const summarizerOutput = document.querySelector("#summarizer-output");
 const languageDetectorContainer = document.querySelector("#language-detector-container");
 const languageDetectorPrompt = document.querySelector("#language-detector-prompt");
+const translatorPrompt = document.querySelector("#translator-prompt");
 
 let availability;
 let summarizer;
@@ -57,6 +59,7 @@ if (summarizerForm) {
       return;
     }
 
+    summarizerInfo.textContent = "Thinking ...";
     summarizerOutput.textContent = "";
     languageDetectorPrompt.textContent = "";
 
@@ -67,12 +70,19 @@ if (summarizerForm) {
       format: formData.get("format"),
       length: formData.get("length"),
     };
+    const startTime = performance.now();
     summarizer = await Summarizer.create(options);
     const stream = summarizer.summarizeStreaming(formData.get("prompt").trim());
     for await (const chunk of stream) {
+      summarizerInfo.textContent = "Writing ...";
       summarizerOutput.append(chunk);
       languageDetectorPrompt.append(chunk);
+      translatorPrompt.append(chunk);
     }
+    const endTime = performance.now();
+    const seconds = ((endTime - startTime) / 1000).toFixed(2);
+    summarizerInfo.textContent = `Done in ${seconds} seconds!`;
+    console.info(`Request took ${seconds} seconds`);
     languageDetectorContainer.hidden = false;
   });
 }

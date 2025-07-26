@@ -2,6 +2,7 @@ const apiSupport = document.querySelector("api-support");
 const reWriterStatus = apiSupport.shadowRoot.querySelector("#rewriter-status");
 const reWriterDownloadButton = apiSupport.shadowRoot.querySelector("#rewriter-download");
 const reWriterError = document.querySelector("#rewriter-error");
+const reWriterInfo = document.querySelector("#rewriter-info");
 const reWriterForm = document.querySelector("#rewriter-form");
 const reWriterOutput = document.querySelector("#rewriter-output");
 const summarizerContainer = document.querySelector("#summarizer-container");
@@ -58,6 +59,7 @@ if (reWriterForm) {
       return;
     }
 
+    reWriterInfo.textContent = "Thinking ...";
     reWriterOutput.textContent = "";
     summarizerPrompt.textContent = "";
 
@@ -67,12 +69,18 @@ if (reWriterForm) {
       format: formData.get("format"),
       length: formData.get("length"),
     };
+    const startTime = performance.now();
     reWriter = await Rewriter.create(options);
     const stream = reWriter.rewriteStreaming(formData.get("prompt").trim());
     for await (const chunk of stream) {
+      reWriterInfo.textContent = "Writing ...";
       reWriterOutput.append(chunk);
       summarizerPrompt.append(chunk);
     }
+    const endTime = performance.now();
+    const seconds = ((endTime - startTime) / 1000).toFixed(2);
+    reWriterInfo.textContent = `Done in ${seconds} seconds!`;
+    console.info(`Request took ${seconds} seconds`);
     summarizerContainer.hidden = false;
   });
 }

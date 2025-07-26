@@ -74,7 +74,7 @@ section {
   margin-block-end: 4rem;
 }
 
-form div {
+form > div {
   display: flex;
   margin-block-end: 16px;
   &:last-of-type {
@@ -106,7 +106,7 @@ pre {
 button {
   background-color: rgb(2, 54, 93);
   color: white;
-  padding: 10px 20px;
+  padding: 12px 24px;
   font-size: 1.25rem;
   cursor: pointer;
   border-radius: 4px;
@@ -124,7 +124,7 @@ input {
 
 textarea {
   width: 100%;
-  padding: 8px;
+  padding: 20px;
   border-radius: 4px;
   border: 1px solid rgb(255, 255, 255);
 }
@@ -132,11 +132,17 @@ textarea {
 fieldset {
   border: none;
   padding: 0;
+  display: flex;
   legend {
     padding: 0;
     display: block;
     float: left;
     width: 175px;
+    min-width: 175px;
+  }
+  div {
+    display: flex;
+    flex-wrap: wrap;
   }
   label {
     float: left;
