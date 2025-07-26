@@ -149,3 +149,11 @@ fieldset {
     width: 150px;
   }
 }
+
+section.center {
+  text-align: center;
+}
+
+audio {
+  margin-block-end: 24px;
+}
