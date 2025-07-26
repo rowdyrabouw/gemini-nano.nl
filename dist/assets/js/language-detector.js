@@ -53,6 +53,7 @@ if (languageDetectorForm) {
     event.preventDefault();
 
     if (availability !== "available") {
+      languageDetectorError.classList.add("error");
       languageDetectorError.textContent = `LanguageDetector API is ${availability}.`;
       console.error(`LanguageDetector API is ${availability}.`);
       return;

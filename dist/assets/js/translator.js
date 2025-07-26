@@ -57,6 +57,7 @@ if (translatorForm) {
     event.preventDefault();
 
     if (availability !== "available") {
+      translatorError.classList.add("error");
       translatorError.textContent = `Translator API is ${availability}.`;
       console.error(`Translator API is ${availability}.`);
       return;
@@ -73,8 +74,8 @@ if (translatorForm) {
       translator = await Translator.create(options);
     } catch (error) {
       if (error.name === "NotSupportedError") {
+        translatorError.classList.add("error");
         translatorError.textContent = `Unable to translate from ${languages[options.sourceLanguage]} to ${languages[options.targetLanguage]}.`;
-        translatorError.className = "error";
         return;
       }
       return;

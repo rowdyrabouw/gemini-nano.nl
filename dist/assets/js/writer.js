@@ -52,6 +52,7 @@ if (writerForm) {
     event.preventDefault();
 
     if (availability !== "available") {
+      writerError.classList.add("error");
       writerError.textContent = `Writer API is ${availability}.`;
       console.error(`Writer API is ${availability}.`);
       return;
@@ -62,7 +63,6 @@ if (writerForm) {
 
     const formData = new FormData(writerForm);
     const options = {
-      sharedContext: formData.get("context").trim(),
       tone: formData.get("tone"),
       format: formData.get("format"),
       length: formData.get("length"),

@@ -51,6 +51,7 @@ if (summarizerForm) {
     event.preventDefault();
 
     if (availability !== "available") {
+      summarizerError.classList.add("error");
       summarizerError.textContent = `Summarizer API is ${availability}.`;
       console.error(`Summarizer API is ${availability}.`);
       return;

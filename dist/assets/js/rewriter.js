@@ -52,6 +52,7 @@ if (reWriterForm) {
     event.preventDefault();
 
     if (availability !== "available") {
+      reWriterError.classList.add("error");
       reWriterError.textContent = `Rewriter API is ${availability}.`;
       console.error(`Rewriter API is ${availability}.`);
       return;
@@ -62,7 +63,6 @@ if (reWriterForm) {
 
     const formData = new FormData(reWriterForm);
     const options = {
-      sharedContext: formData.get("context").trim(),
       tone: formData.get("tone"),
       format: formData.get("format"),
       length: formData.get("length"),
