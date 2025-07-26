@@ -14,8 +14,13 @@
     <script src="/assets/js/translator.js" type="module" defer></script>
     <script src="/assets/js/prompt.js" type="module" defer></script>
     <script src="/assets/js/proofreader.js" type="module" defer></script>
+    <script src="/assets/js/browser-check.js" type="module" defer></script>
   </head>
   <body>
-    <api-support writer rewriter summarizer language-detector translator prompt proofreader></api-support>
+    <main class="start-page">
+      <api-support writer rewriter summarizer language-detector translator prompt proofreader view="vertical"></api-support>
+      <h1>Gemini Nano</h1>
+      <div id="browser-error" aria-atomic="true" aria-live="assertive"></div>
+    </main>
   </body>
 </html>
