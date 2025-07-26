@@ -7,18 +7,31 @@
 }
 
 #status-container {
+  position: relative;
+  font-size: 1rem;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-direction: row;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
   div:not([hidden]) {
     display: flex;
     gap: 8px;
+    margin-inline-end: 12px;
     span:first-child {
       display: inline-block;
-      width: 180px;
+      white-space: nowrap;
+      align-self: center;
+    }
+  }
+  &.status-container-vertical {
+    flex-direction: column;
+    span:first-child {
+      width: 150px;
     }
   }
 }
+
 .status {
   display: inline-block;
   padding: 4px 8px;
@@ -27,27 +40,23 @@
   text-align: center;
   color: white;
 }
-
 .status-checking {
-  background-color: gray;
+  background-color: rgb(94, 94, 94);
   animation: pulse 2s infinite;
 }
-
 .status-available {
-  background-color: green;
+  background-color: rgb(2, 113, 1);
 }
-
 .status-unavailable,
 .status-not-supported {
-  background-color: red;
+  background-color: rgb(181, 24, 0);
 }
 .status-downloadable {
-  background-color: orange;
+  background-color: rgb(242, 114, 0);
   color: black;
 }
 .status-downloading {
-  background-color: blue;
-  color: white;
+  background-color: rgb(21, 230, 207);
   animation: pulse 2s infinite;
 }
 
@@ -71,10 +80,10 @@ button:not([hidden]) {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: rgb(255, 255, 255);
 
   img {
     width: 26px;
     height: 26px;
-    fill: currentColor;
   }
 }

@@ -1,6 +1,6 @@
 class ApiSupport extends HTMLElement {
   static get observedAttributes() {
-    return ["writer", "rewriter", "summarizer", "language-detector", "translator", "prompt", "proofreader"];
+    return ["writer", "rewriter", "summarizer", "language-detector", "translator", "prompt", "proofreader", "view"];
   }
 
   constructor() {
@@ -21,37 +21,37 @@ class ApiSupport extends HTMLElement {
       <style>@import "/assets/css/api-support.css";</style>
       <div id="status-container">
         <div id="writer" hidden>
-          <span>Writer API</span>
+          <span>Writer</span>
           <span id="writer-status" class="status status-checking">checking</span>
           <button hidden type="button" id="writer-download"><img src="/assets/svg/download.svg" alt="Download Writer API"></button>
         </div>
         <div id="rewriter" hidden>
-          <span>Rewriter API</span>
+          <span>Rewriter</span>
           <span id="rewriter-status" class="status status-checking">checking</span>
           <button hidden type="button" id="rewriter-download"><img src="/assets/svg/download.svg" alt="Download Rewriter API"></button>
         </div>
         <div id="summarizer" hidden>
-          <span>Summarizer API</span>
+          <span>Summarizer</span>
           <span id="summarizer-status" class="status status-checking">checking</span>
           <button hidden type="button" id="summarizer-download"><img src="/assets/svg/download.svg" alt="Download Summarizer API"></button>
         </div>
         <div id="language-detector" hidden>
-          <span>Language Detector API</span>
+          <span>Language Detector</span>
           <span id="language-detector-status" class="status status-checking">checking</span>
           <button hidden type="button" id="language-detector-download"><img src="/assets/svg/download.svg" alt="Download Language Detector API"></button>
         </div>
         <div id="translator" hidden>
-          <span>Translator API</span>
+          <span>Translator</span>
           <span id="translator-status" class="status status-checking">checking</span>
           <button hidden type="button" id="translator-download"><img src="/assets/svg/download.svg" alt="Download Translator API"></button>
         </div>
         <div id="prompt" hidden>
-          <span>Prompt API</span>
+          <span>Prompt</span>
           <span id="prompt-status" class="status status-checking">checking</span>
           <button hidden type="button" id="prompt-download"><img src="/assets/svg/download.svg" alt="Download Prompt API"></button>
         </div>
         <div id="proofreader" hidden>
-          <span>Proofreader API</span>
+          <span>Proofreader</span>
           <span id="proofreader-status" class="status status-checking">checking</span>
           <button hidden type="button" id="proofreader-download"><img src="/assets/svg/download.svg" alt="Download Proofreader API"></button>
         </div>
@@ -81,6 +81,9 @@ class ApiSupport extends HTMLElement {
         break;
       case "proofreader":
         this.proofreader.hidden = false;
+        break;
+      case "view":
+        this.shadowRoot.querySelector("#status-container").classList.add(`status-container-${newValue}`);
         break;
     }
   }
