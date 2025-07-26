@@ -1,17 +1,18 @@
-const supportedMessage = "Prompt API is supported.";
-const statusMessage = "Prompt API is";
-const notSupportedMessage = "Prompt API is not supported.";
 const apiSupport = document.querySelector("api-support");
 const promptStatus = apiSupport.shadowRoot.querySelector("#prompt-status");
 const promptDownloadButton = apiSupport.shadowRoot.querySelector("#prompt-download");
+const promptError = document.querySelector("#prompt-error");
+const promptInfo = document.querySelector("#prompt-info");
+const promptPoemForm = document.querySelector("#prompt-poem-form");
+const promptOutput = document.querySelector("#prompt-output");
 
 let availability;
 let languageModel;
 
 if ("LanguageModel" in self) {
-  console.info(supportedMessage);
+  console.info("Prompt API is supported.");
   availability = await LanguageModel.availability();
-  console.info(`${statusMessage} ${availability}.`);
+  console.info(`Prompt API is ${availability}.`);
   promptStatus.textContent = availability;
   promptStatus.classList.remove("status-checking");
   promptStatus.classList.add(`status-${availability}`);
@@ -19,7 +20,7 @@ if ("LanguageModel" in self) {
     promptDownloadButton.hidden = false;
   }
 } else {
-  console.error(notSupportedMessage);
+  console.error("Prompt API is not supported.");
   availability = "not supported";
   promptStatus.textContent = availability;
   promptStatus.classList.remove("status-checking");
@@ -44,3 +45,49 @@ promptDownloadButton.addEventListener("click", async () => {
     },
   });
 });
+
+if (promptPoemForm) {
+  promptPoemForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (availability !== "available") {
+      promptError.classList.add("error");
+      promptError.textContent = `Prompt API is ${availability}.`;
+      console.error(`Prompt API is ${availability}.`);
+      return;
+    }
+
+    promptInfo.textContent = "Thinking ...";
+    promptOutput.textContent = "";
+
+    const formData = new FormData(promptPoemForm);
+    const options = {
+      tone: formData.get("tone"),
+      format: formData.get("format"),
+      length: formData.get("length"),
+    };
+    const startTime = performance.now();
+
+    const session = await LanguageModel.create();
+    const stream = session.promptStreaming([
+      {
+        role: "user",
+        content: [
+          {
+            type: "text",
+            value: formData.get("prompt").trim(),
+          },
+        ],
+      },
+    ]);
+    for await (const chunk of stream) {
+      promptInfo.textContent = "Poeting ...";
+      promptOutput.textContent += chunk;
+    }
+
+    const endTime = performance.now();
+    const seconds = ((endTime - startTime) / 1000).toFixed(2);
+    promptInfo.textContent = `Done in ${seconds} seconds!`;
+    console.info(`Request took ${seconds} seconds`);
+  });
+}
