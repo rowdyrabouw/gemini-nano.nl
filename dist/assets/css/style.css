@@ -1,29 +1,145 @@
 @font-face {
-  font-family: "Avenir";
-  src: url("../fonts/Avenir-Roman.woff2") format("woff2"), url("../fonts/Avenir-Roman.woff") format("woff");
+  font-family: "Nasa";
+  src: url("../fonts/Nasa.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Avenir";
+  src: url("../fonts/Avenir-Roman.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: rgb(2, 54, 93);
+}
+
 body {
   font-family: "Avenir", sans-serif;
-  background-color: rgb(21, 26, 41);
+  background-color: rgb(2, 54, 93);
   color: rgb(255, 255, 255);
-  font-size: 1rem;
+  font-size: 1.25rem;
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  accent-color: rgb(255, 218, 49);
+  background: linear-gradient(rgb(21, 26, 41) 0%, rgb(2, 54, 93) 100%);
+}
+
+main {
+  padding: 24px 64px;
+}
+
+main.start-page {
+  padding: 32px;
+  height: 100%;
+  background: url("/assets/img/gemini.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+section {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+h1,
+h2 {
+  font-family: "Nasa", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+h1 {
+  font-size: 4rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin-block-start: 0;
+  margin-block-end: 1rem;
+}
+
+section {
+  margin-block-start: 2rem;
+  margin-block-end: 4rem;
+}
+
+form div {
+  display: flex;
+  margin-block-end: 16px;
+  &:last-of-type {
+    margin-block-end: 32px;
+  }
 }
 
 textarea {
   field-sizing: content;
+  max-width: 80ch;
 }
 
 pre {
-  max-width: 600px;
+  max-width: 80ch;
   white-space: pre-wrap;
 }
 
 .error {
-  color: red;
+  background-color: rgb(181, 24, 0);
+  color: rgb(255, 255, 255);
+  font-size: 1.25rem;
+  margin-block: 1rem;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 16px 32px;
+  border-radius: 4px;
+}
+
+button {
+  background-color: rgb(2, 54, 93);
+  color: white;
+  padding: 10px 20px;
+  font-size: 1.25rem;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid rgb(255, 255, 255);
+}
+
+label {
+  display: inline-block;
+  width: 175px;
+}
+textarea,
+input {
+  font-size: 1rem;
+}
+
+textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid rgb(255, 255, 255);
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  legend {
+    padding: 0;
+    display: block;
+    float: left;
+    width: 175px;
+  }
+  label {
+    float: left;
+    width: 150px;
+  }
 }
