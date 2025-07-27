@@ -94,7 +94,7 @@ form > div {
 pre {
   max-width: 80ch;
   white-space: pre-wrap;
-  text-wrap: balance;
+  text-align: left;
 }
 
 .error {
