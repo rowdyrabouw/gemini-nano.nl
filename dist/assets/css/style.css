@@ -40,6 +40,10 @@ header.start-page {
   padding-inline-start: 88px;
 }
 
+main {
+  padding-block-end: 196px;
+}
+
 body:has(main.start-page) {
   /* padding: 32px; */
   height: 100%;
