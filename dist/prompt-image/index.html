@@ -8,72 +8,35 @@
     <link rel="preload" href="/assets/fonts/Avenir-Roman.woff2" as="font" type="font/woff2" crossorigin />
     <script type="module" src="/assets/js/api-support.js"></script>
     <script src="/assets/js/prompt.js" type="module" defer></script>
-    <script src="/assets/js/browser-check.js" type="module" defer></script>
-    <style>
-      img {
-        max-width: 400px;
-        max-height: 400px;
-      }
-      pre {
-        max-width: 600px;
-        white-space: pre-wrap;
-      }
-    </style>
   </head>
   <body>
-    <api-support prompt></api-support>
-    <div id="browser-error" class="error" aria-atomic="true" aria-live="assertive"></div>
-    <h1>Prompt image describe (multimodal)</h1>
-      <div>
+    <main>
+      <api-support prompt></api-support>
+      <div id="browser-error" aria-atomic="true" aria-live="assertive"></div>
+
+      <h1>Gemini Nano Prompt</h1>
+
+      <section class="center">
         <figure>
-        <img src="/assets/img/gemini5.jpg" alt="Astronaut Charles Conrad Jr. tweaks astronaut L. Gordon Cooper's eight-day growth of beard for the cameramen while onboard the prime recovery vessel after their Gemini-5 flight." />
-      <figcaption>
-        <strong>29 Augustus 1965</strong>Astronaut Charles Conrad Jr. tweaks astronaut L. Gordon Cooper's eight-day growth of beard while onboard the prime recovery vessel after their Gemini-5 flight.
-        </figcaption>  
-      </figure>
-        <button id="describe">Describe</button>
-      </div>
-      <div>
-        <pre id="result"></pre>
-      </div>
-    </div>
-    <script>
-      const button = document.querySelector("#describe");
+          <img
+            class="prompt-image"
+            src="/assets/img/gemini5.jpg"
+            alt="Astronaut Charles Conrad Jr. tweaks astronaut L. Gordon Cooper's eight-day growth of beard for the cameramen while onboard the prime recovery vessel after their Gemini-5 flight."
+          />
+          <figcaption><time datetime="1965-08-29">29 August 1965</time>Astronaut Charles Conrad Jr. tweaks astronaut L. Gordon Cooper's eight-day growth of beard while onboard the prime recovery vessel after their Gemini-5 flight.</figcaption>
+        </figure>
 
-      button.addEventListener("click", async () => {
-        const startTime = performance.now();
-        const session = await LanguageModel.create({
-          expectedInputs: [{ type: "audio" }, { type: "image" }],
-        });
-
-        const referenceImage = await (await fetch("/assets/img/gemini5.jpg")).blob();
-
-        const stream = session.promptStreaming([
-          {
-            role: "user",
-            content: [
-              {
-                type: "text",
-                value: "Create a description of the image in high detail, but do not use more than 150 words.",
-              },
-              { type: "image", value: referenceImage },
-            ],
-          },
-        ]);
-        for await (const chunk of stream) {
-          // console.log(chunk);
-          document.querySelector("#result").textContent += chunk;
-        }
-
-        for await (const chunk of stream) {
-          // console.log(chunk);
-          document.querySelector("#result").textContent += chunk;
-        }
-        const endTime = performance.now();
-        const seconds = ((endTime - startTime) / 1000).toFixed(2);
-        console.log(`${session.inputUsage}/${session.inputQuota}`);
-        console.log(`Request took ${seconds} seconds`);
-      });
-    </script>
+        <form id="prompt-image-form">
+          <div>
+            <label for="prompt-image-prompt">Prompt</label>
+            <textarea id="prompt-image-prompt" name="prompt">Create a description of the image in high detail, but do not use more than 150 words</textarea>
+          </div>
+          <button type="submit">Describe</button>
+        </form>
+        <p id="prompt-error" aria-atomic="true" aria-live="assertive"></p>
+        <p id="prompt-info" aria-atomic="true" aria-live="polite"></p>
+        <pre id="prompt-output" class="output" aria-atomic="false" aria-live="polite"></pre>
+      </section>
+    </main>
   </body>
 </html>

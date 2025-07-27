@@ -90,6 +90,7 @@ textarea {
 pre {
   max-width: 80ch;
   white-space: pre-wrap;
+  text-wrap: balance;
 }
 
 .error {
@@ -156,4 +157,25 @@ section.center {
 
 audio {
   margin-block-end: 24px;
+}
+
+.prompt-image {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  border-radius: 4px;
+}
+
+time {
+  display: block;
+}
+
+figcaption {
+  font-size: 1rem;
+  max-inline-size: 80ch;
+  text-wrap: balance;
+  margin: 0 auto;
+  display: block;
+  padding-block-start: 0.5rem;
+  padding-block-end: 0.5rem;
 }

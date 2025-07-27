@@ -4,6 +4,7 @@ const promptDownloadButton = apiSupport.shadowRoot.querySelector("#prompt-downlo
 const promptError = document.querySelector("#prompt-error");
 const promptInfo = document.querySelector("#prompt-info");
 const promptAudioForm = document.querySelector("#prompt-audio-form");
+const promptImageForm = document.querySelector("#prompt-image-form");
 const promptPoemForm = document.querySelector("#prompt-poem-form");
 const promptOutput = document.querySelector("#prompt-output");
 
@@ -96,6 +97,52 @@ if (promptAudioForm) {
   });
 }
 
+if (promptImageForm) {
+  promptImageForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (availability !== "available") {
+      promptError.classList.add("error");
+      promptError.textContent = `Prompt API is ${availability}.`;
+      console.error(`Prompt API is ${availability}.`);
+      return;
+    }
+
+    promptInfo.textContent = "Thinking ...";
+    promptOutput.textContent = "";
+
+    const formData = new FormData(promptImageForm);
+    const startTime = performance.now();
+
+    const session = await LanguageModel.create({
+      expectedInputs: [{ type: "audio" }, { type: "image" }],
+    });
+    const referenceImage = await (await fetch("/assets/img/gemini5.jpg")).blob();
+
+    const stream = session.promptStreaming([
+      {
+        role: "user",
+        content: [
+          {
+            type: "text",
+            value: formData.get("prompt").trim(),
+          },
+          { type: "image", value: referenceImage },
+        ],
+      },
+    ]);
+    for await (const chunk of stream) {
+      promptInfo.textContent = "Describing ...";
+      promptOutput.textContent += chunk;
+    }
+
+    const endTime = performance.now();
+    const seconds = ((endTime - startTime) / 1000).toFixed(2);
+    promptInfo.textContent = `Done in ${seconds} seconds!`;
+    console.info(`Request took ${seconds} seconds`);
+  });
+}
+
 if (promptPoemForm) {
   promptPoemForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -126,7 +173,7 @@ if (promptPoemForm) {
       },
     ]);
     for await (const chunk of stream) {
-      promptInfo.textContent = "Poeting ...";
+      promptInfo.textContent = "Generating ...";
       promptOutput.textContent += chunk;
     }
 
