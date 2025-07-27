@@ -4,24 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gemini Nano</title>
-    <link rel="stylesheet" href="../assets/css/style.css" />
-    <script src="../assets/js/proofreader.js" type="module" defer></script>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="preload" href="/assets/fonts/Avenir-Roman.woff2" as="font" type="font/woff2" crossorigin />
+    <script type="module" src="/assets/js/api-support.js"></script>
+    <script src="/assets/js/proofreader.js" type="module" defer></script>
   </head>
   <body>
-    <div id="status-container">
-      <div>Proofreader API <span id="proofreader-status"></span> <input type="button" id="proofreader-download" value="Download Proofreader" hidden/></span></div>
-    </div>
+    <main>
+      <api-support proofreader></api-support>
+      <div id="browser-error" aria-atomic="true" aria-live="assertive"></div>
 
-    <section id="proofreader-container" >
-      <h2>Proofreader API</h2>
-      <form id="proofreader-form">
-        <div>
-          <label for="proofreader-input">Input</label>
-          <textarea id="proofreader-input" name="input">nasa gemini was go to space before apollo and have two people inside the ship they flying around earth many times, doing many test like docking and spacewalks it was very important for learn how to go moon later but sometime they having problem with engine or communication but still it was big succes for nasa and america space.</textarea>
-        </div>
-        <button type="submit">Proofread</button>
-      </form>
-      <output id="proofreader-output" class="output"></output>
-    </section>
+      <h1>Gemini Nano Proofreader</h1>
+
+      <section class="center">
+        <form id="proofreader-form">
+          <div>
+            <label for="proofreader-prompt">Prompt</label>
+            <textarea id="proofreader-prompt" name="prompt">
+nasa gemini was go to space before apollo and have two people inside the ship they flying around earth many times, doing many test like docking and spacewalks it was very important for learn how to go moon later but sometime they having problem with engine or communication but still it was big succes for nasa and america space.
+            </textarea>
+          </div>
+          <button type="submit">Write</button>
+        </form>
+        <p id="proofreader-error" aria-atomic="true" aria-live="assertive"></p>
+        <p id="proofreader-info" aria-atomic="true" aria-live="polite"></p>
+        <pre id="proofreader-output" class="output" aria-atomic="false" aria-live="polite"></pre>
+      </section>
+    </main>
   </body>
 </html>
