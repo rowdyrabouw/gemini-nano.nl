@@ -32,12 +32,16 @@ body {
   background: linear-gradient(rgb(21, 26, 41) 0%, rgb(2, 54, 93) 100%);
 }
 
-main {
+header {
   padding: 24px 64px;
 }
 
-main.start-page {
-  padding: 32px;
+header.start-page {
+  padding-inline-start: 88px;
+}
+
+body:has(main.start-page) {
+  /* padding: 32px; */
   height: 100%;
   background: url("/assets/img/gemini.jpg");
   background-position: center center;
@@ -60,7 +64,8 @@ h2 {
 h1 {
   font-size: 4rem;
   text-align: center;
-  margin-bottom: 1rem;
+  margin-block-end: 1rem;
+  margin-block-start: 16px;
 }
 
 h2 {
@@ -80,11 +85,6 @@ form > div {
   &:last-of-type {
     margin-block-end: 32px;
   }
-}
-
-textarea {
-  field-sizing: content;
-  max-width: 80ch;
 }
 
 pre {
@@ -125,9 +125,11 @@ input {
 
 textarea {
   width: 100%;
-  padding: 20px;
+  padding: 12px 16px;
   border-radius: 4px;
   border: 1px solid rgb(255, 255, 255);
+  field-sizing: content;
+  max-width: 80ch;
 }
 
 fieldset {

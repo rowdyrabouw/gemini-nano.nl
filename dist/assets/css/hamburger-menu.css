@@ -1,0 +1,86 @@
+.navMenu {
+  width: fit-content;
+  color: rgb(255, 255, 255);
+  background: linear-gradient(rgb(21, 26, 41) 0%, rgb(2, 54, 93) 50%, rgb(84, 120, 146) 75%, rgb(255, 255, 255) 100%);
+  border-inline-end: 4px solid rgb(255, 255, 255);
+  overflow: hidden;
+  position: fixed;
+  height: 100%;
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  left: -4px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  left: auto !important;
+  color: inherit;
+  padding: 0 5px;
+}
+
+.hamburger {
+  padding: 0 5px 4px;
+  transition: margin 0.4s linear;
+}
+
+.hidden {
+  width: 0;
+  display: none;
+}
+
+.button {
+  font-size: 2em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  position: absolute;
+  top: 12px;
+  left: 8px;
+}
+
+ul {
+  list-style: none;
+  padding: 1.4em;
+  line-height: 1.4;
+}
+
+ul li {
+  padding: 5px 0;
+}
+
+.navMenu a {
+  text-decoration: none;
+  font-weight: bold;
+  color: inherit;
+}
+
+.navMenu a:hover {
+  border-bottom: solid 2px;
+}
+
+h1 {
+  margin: 0;
+}
+
+.main-right {
+  padding-left: 4em;
+}
+
+.menuOpen {
+  margin-left: var(--side-panel);
+}
+
+.overlay {
+  position: fixed;
+  z-index: 8;
+  top: 0;
+  right: 0;
+  left: var(--side-panel);
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  height: 100%;
+}
