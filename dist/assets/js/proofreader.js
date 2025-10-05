@@ -5,11 +5,14 @@ const proofReaderStatus = apiSupport.shadowRoot.querySelector("#proofreader-stat
 const proofReaderDownloadButton = apiSupport.shadowRoot.querySelector("#proofreader-download");
 const proofReaderInfo = document.querySelector("#proofreader-info");
 const proofReaderForm = document.querySelector("#proofreader-form");
+const proofReaderShowCorrections = document.querySelector("#showCorrections");
+const proofReaderLegend = document.querySelector("#legend");
+const proofReaderLegendCOntent = document.querySelector("#legend").firstChild;
+const proofReaderInput = document.querySelector("#proofreader-prompt");
 const proofReaderOutput = document.querySelector("#proofreader-output");
 const proofReaderContent = document.querySelector("#proofreader-content");
 
 let availability;
-let proofReader;
 
 if ("Proofreader" in self) {
   console.info("Proofreader API is supported.");
@@ -50,6 +53,44 @@ proofReaderDownloadButton.addEventListener("click", async () => {
 });
 
 if (proofReaderForm) {
+  proofReaderShowCorrections.addEventListener("change", (e) => {
+    if (e.target.value === "yes") {
+      proofReaderLegend.style.visibility = "visible";
+    } else {
+      proofReaderLegend.style.visibility = "hidden";
+    }
+  });
+
+  const errorHighlights = {
+    spelling: null,
+    punctuation: null,
+    capitalization: null,
+    preposition: null,
+    "missing-words": null,
+    grammar: null,
+  };
+  const errorTypes = Object.keys(errorHighlights);
+
+  const preTrimStartLength = proofReaderLegendCOntent.textContent.length;
+  const postTrimStartLength = proofReaderLegendCOntent.textContent.trimStart().length;
+  let offset = preTrimStartLength - postTrimStartLength;
+  proofReaderLegendCOntent.textContent
+    .trimStart()
+    .split(" ")
+    .forEach((word, i) => {
+      if (!errorTypes[i]) {
+        return;
+      }
+      const range = new Range();
+      range.setStart(proofReaderLegendCOntent, offset);
+      offset += word.length;
+      range.setEnd(proofReaderLegendCOntent, offset);
+      const highlight = new self.Highlight(range);
+      errorHighlights[errorTypes[i]] = highlight;
+      CSS.highlights.set(errorTypes[i], highlight);
+      offset += 1;
+    });
+
   proofReaderForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -57,22 +98,31 @@ if (proofReaderForm) {
     proofReaderOutput.textContent = "";
 
     const formData = new FormData(proofReaderForm);
-    /* options for the proofreader are defined in the specification, but not implemented in Chrome yet */
-
-    // const options = {
-    //   includeCorrectionTypes: true,
-    //   includeCorrectionExplanations: true,
-    //   expectedInputLanguagues: ["en"],
-    //   correctionExplanationLanguage: "en",
-    // };
+    const showCorrections = formData.get("showCorrections") === "yes";
+    const options = {
+      includeCorrectionTypes: showCorrections,
+      includeCorrectionExplanations: showCorrections,
+      expectedInputLanguagues: ["en"],
+      correctionExplanationLanguage: "en",
+    };
     const startTime = performance.now();
-    // const proofreader = await Proofreader.create(options);
+    const proofreader = await Proofreader.create(options);
 
-    const proofreader = await Proofreader.create();
     proofReaderInfo.textContent = "Proofreading ...";
 
-    const corrections = await proofreader.proofread(formData.get("prompt").trim());
-    console.info("Corrections:", corrections);
+    const corrections = await proofreader.proofread(proofReaderInput.textContent.trim());
+
+    if (showCorrections) {
+      const textNode = input.firstChild;
+      for (const correction of corrections.corrections) {
+        const range = new Range();
+        range.setStart(textNode, correction.startIndex);
+        range.setEnd(textNode, correction.endIndex);
+        correction.type ||= "other";
+        errorHighlights[correction.type].add(range);
+      }
+    }
+
     proofReaderOutput.textContent = corrections.correctedInput;
     proofReaderContent.innerHTML = marked.parse(proofReaderOutput.textContent);
 

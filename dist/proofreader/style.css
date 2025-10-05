@@ -1,0 +1,81 @@
+#legend {
+  margin-inline-start: 200px;
+  margin-block-end: 16px;
+  word-spacing: 1.5rem;
+  visibility: hidden;
+}
+
+[contenteditable] {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border: 1px solid rgb(255, 255, 255);
+  max-width: 80ch;
+  height: auto;
+  field-sizing: content;
+}
+
+label,
+fieldset legend {
+  min-width: 200px;
+}
+
+fieldset label {
+  width: auto;
+  min-width: 0;
+  margin-inline-end: 10px;
+}
+
+::highlight(spelling) {
+  text-decoration-color: yellow;
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 2px;
+}
+
+::highlight(punctuation) {
+  text-decoration-color: red;
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 2px;
+}
+
+::highlight(capitalization) {
+  text-decoration-color: lime;
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 2px;
+}
+
+::highlight(preposition) {
+  text-decoration-color: orange;
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 2px;
+}
+
+::highlight(missing-words) {
+  text-decoration-color: deeppink;
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 2px;
+}
+
+::highlight(grammar) {
+  text-decoration-color: lightblue;
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-skip-ink: none;
+  text-decoration-thickness: from-font;
+  text-underline-offset: 2px;
+}

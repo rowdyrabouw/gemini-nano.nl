@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gemini Nano</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="stylesheet" href="style.css" />
     <link rel="preload" href="/assets/fonts/nasa.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/avenir-next-regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/avenir-next-bold.woff2" as="font" type="font/woff2" crossorigin />
@@ -24,14 +25,28 @@
       <h1>Gemini Nano Proofreader</h1>
 
       <section>
+        <!-- prettier-ignore -->
+        <div id="legend">spelling punctuation capitalization preposition missing-words grammar</div>
         <form id="proofreader-form">
           <div>
-            <label for="proofreader-prompt">Prompt</label>
-            <textarea id="proofreader-prompt" name="prompt">
-nasa gemini was go to space before apollo and have two people inside the ship they flying around earth many times, doing many test like docking and spacewalks it was very important for learn how to go moon later but sometime they having problem with engine or communication but still it was big succes for nasa and america space.</textarea
-            >
+            <label id="proofreader-prompt-label">Prompt</label>
+            <!-- prettier-ignore -->
+            <div id="proofreader-prompt" role="textbox" aria-labelledby="proofreader-prompt-label" spellcheck="false" contenteditable="plaintext-only">nasa gemini was go to space before apolo and have two people inside the ship they flying around earth many times, doing many test like docking and spacewalks it was very important for learn how to go moon later but sometime they having problem with engine or comunication but still it was big succes for nasa and america space.</div>
           </div>
-          <button type="submit">Write</button>
+          <div>
+            <fieldset id="showCorrections">
+              <legend>Show corrections</legend>
+              <label>
+                <input type="radio" id="show-corrections-no" name="showCorrections" value="no" checked />
+                No
+              </label>
+              <label>
+                <input type="radio" id="show-corrections-yes" name="showCorrections" value="yes" />
+                Yes
+              </label>
+            </fieldset>
+          </div>
+          <button type="submit">Proofread</button>
         </form>
         <p id="proofreader-error" aria-atomic="true" aria-live="assertive"></p>
         <p id="proofreader-info" aria-atomic="true" aria-live="polite"></p>
