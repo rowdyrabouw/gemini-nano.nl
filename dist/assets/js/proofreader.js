@@ -7,8 +7,9 @@ const proofReaderInfo = document.querySelector("#proofreader-info");
 const proofReaderForm = document.querySelector("#proofreader-form");
 const proofReaderShowCorrections = document.querySelector("#showCorrections");
 const proofReaderLegend = document.querySelector("#legend");
-const proofReaderLegendCOntent = document.querySelector("#legend").firstChild;
 const proofReaderInput = document.querySelector("#proofreader-prompt");
+const proofReaderCorrectionsContainer = document.querySelector("details");
+const proofReaderCorrections = document.querySelector("#proofreader-corrections");
 const proofReaderOutput = document.querySelector("#proofreader-output");
 const proofReaderContent = document.querySelector("#proofreader-content");
 
@@ -53,6 +54,8 @@ proofReaderDownloadButton.addEventListener("click", async () => {
 });
 
 if (proofReaderForm) {
+  const proofReaderLegendContent = document.querySelector("#legend").firstChild;
+
   proofReaderShowCorrections.addEventListener("change", (e) => {
     if (e.target.value === "yes") {
       proofReaderLegend.style.visibility = "visible";
@@ -71,10 +74,10 @@ if (proofReaderForm) {
   };
   const errorTypes = Object.keys(errorHighlights);
 
-  const preTrimStartLength = proofReaderLegendCOntent.textContent.length;
-  const postTrimStartLength = proofReaderLegendCOntent.textContent.trimStart().length;
+  const preTrimStartLength = proofReaderLegendContent.textContent.length;
+  const postTrimStartLength = proofReaderLegendContent.textContent.trimStart().length;
   let offset = preTrimStartLength - postTrimStartLength;
-  proofReaderLegendCOntent.textContent
+  proofReaderLegendContent.textContent
     .trimStart()
     .split(" ")
     .forEach((word, i) => {
@@ -82,9 +85,9 @@ if (proofReaderForm) {
         return;
       }
       const range = new Range();
-      range.setStart(proofReaderLegendCOntent, offset);
+      range.setStart(proofReaderLegendContent, offset);
       offset += word.length;
-      range.setEnd(proofReaderLegendCOntent, offset);
+      range.setEnd(proofReaderLegendContent, offset);
       const highlight = new self.Highlight(range);
       errorHighlights[errorTypes[i]] = highlight;
       CSS.highlights.set(errorTypes[i], highlight);
@@ -96,6 +99,7 @@ if (proofReaderForm) {
 
     proofReaderInfo.textContent = "Thinking ...";
     proofReaderOutput.textContent = "";
+    proofReaderContent.innerHTML = "";
 
     const formData = new FormData(proofReaderForm);
     const showCorrections = formData.get("showCorrections") === "yes";
@@ -113,7 +117,7 @@ if (proofReaderForm) {
     const corrections = await proofreader.proofread(proofReaderInput.textContent.trim());
 
     if (showCorrections) {
-      const textNode = input.firstChild;
+      const textNode = proofReaderInput.firstChild;
       for (const correction of corrections.corrections) {
         const range = new Range();
         range.setStart(textNode, correction.startIndex);
@@ -121,6 +125,8 @@ if (proofReaderForm) {
         correction.type ||= "other";
         errorHighlights[correction.type].add(range);
       }
+      proofReaderCorrectionsContainer.style.display = "block";
+      proofReaderCorrections.textContent = JSON.stringify(corrections.corrections, null, 2);
     }
 
     proofReaderOutput.textContent = corrections.correctedInput;

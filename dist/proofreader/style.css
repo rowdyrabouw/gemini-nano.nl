@@ -15,6 +15,22 @@
   field-sizing: content;
 }
 
+details {
+  display: none;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: bold;
+  margin-block-end: 8px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  color: #e4a073;
+  &::marker {
+    content: "";
+  }
+}
+
 label,
 fieldset legend {
   min-width: 200px;
