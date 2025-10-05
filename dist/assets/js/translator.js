@@ -1,3 +1,4 @@
+import { marked } from "./marked.esm.js";
 import { languages } from "./languages.js";
 
 const apiSupport = document.querySelector("api-support");
@@ -7,9 +8,18 @@ const translatorForm = document.querySelector("#translator-form");
 const translatorError = document.querySelector("#translator-error");
 const translatorInfo = document.querySelector("#translator-info");
 const translatorOutput = document.querySelector("#translator-output");
+const translatorContent = document.querySelector("#translator-content");
+const translatorPromptToggle = document.querySelector("#translator-prompt-toggle");
+const translatorPromptContainer = document.querySelector("#translator-prompt-container");
 
 let availability;
 let translator;
+
+if (translatorPromptToggle) {
+  translatorPromptToggle.addEventListener("click", () => {
+    translatorPromptContainer.classList.toggle("sr-only");
+  });
+}
 
 if ("Translator" in self) {
   console.info("Translator API is supported.");
@@ -92,6 +102,7 @@ if (translatorForm) {
     for await (const chunk of stream) {
       translatorInfo.textContent = "Writing ...";
       translatorOutput.append(chunk);
+      translatorContent.innerHTML = marked.parse(translatorOutput.textContent);
     }
     const endTime = performance.now();
     const seconds = ((endTime - startTime) / 1000).toFixed(2);

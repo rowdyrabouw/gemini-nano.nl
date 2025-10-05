@@ -7,10 +7,18 @@ const languageDetectorError = document.querySelector("#language-detector-error")
 const languageDetectorInfo = document.querySelector("#language-detector-info");
 const languageDetectorForm = document.querySelector("#language-detector-form");
 const languageDetectorOutput = document.querySelector("#language-detector-output");
+const languagePromptToggle = document.querySelector("#language-detector-prompt-toggle");
+const languagePromptContainer = document.querySelector("#language-detector-prompt-container");
 const translatorContainer = document.querySelector("#translator-container");
 
 let availability;
 let languageDetector;
+
+if (languagePromptToggle) {
+  languagePromptToggle.addEventListener("click", () => {
+    languagePromptContainer.classList.toggle("sr-only");
+  });
+}
 
 if ("LanguageDetector" in self) {
   console.info("LanguageDetector API is supported.");

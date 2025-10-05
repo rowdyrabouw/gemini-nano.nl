@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gemini Nano</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
-    <link rel="preload" href="/assets/fonts/Avenir-Roman.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/nasa.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/avenir-next-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/avenir-next-bold.woff2" as="font" type="font/woff2" crossorigin />
     <script type="module" src="/assets/js/api-support.js"></script>
     <script src="/assets/js/proofreader.js" type="module" defer></script>
     <script src="/assets/js/browser-check.js" type="module" defer></script>
@@ -21,19 +23,20 @@
 
       <h1>Gemini Nano Proofreader</h1>
 
-      <section class="center">
+      <section>
         <form id="proofreader-form">
           <div>
             <label for="proofreader-prompt">Prompt</label>
             <textarea id="proofreader-prompt" name="prompt">
-nasa gemini was go to space before apollo and have two people inside the ship they flying around earth many times, doing many test like docking and spacewalks it was very important for learn how to go moon later but sometime they having problem with engine or communication but still it was big succes for nasa and america space.
-            </textarea>
+nasa gemini was go to space before apollo and have two people inside the ship they flying around earth many times, doing many test like docking and spacewalks it was very important for learn how to go moon later but sometime they having problem with engine or communication but still it was big succes for nasa and america space.</textarea
+            >
           </div>
           <button type="submit">Write</button>
         </form>
         <p id="proofreader-error" aria-atomic="true" aria-live="assertive"></p>
         <p id="proofreader-info" aria-atomic="true" aria-live="polite"></p>
-        <pre id="proofreader-output" class="output" aria-atomic="false" aria-live="polite"></pre>
+        <pre id="proofreader-output" class="sr-only" aria-atomic="false" aria-live="polite"></pre>
+        <div id="proofreader-content" class="content"></div>
       </section>
     </main>
   </body>

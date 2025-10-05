@@ -1,3 +1,5 @@
+import { marked } from "./marked.esm.js";
+
 const apiSupport = document.querySelector("api-support");
 const summarizerStatus = apiSupport.shadowRoot.querySelector("#summarizer-status");
 const summarizerDownloadButton = apiSupport.shadowRoot.querySelector("#summarizer-download");
@@ -5,12 +7,21 @@ const summarizerError = document.querySelector("#summarizer-error");
 const summarizerInfo = document.querySelector("#summarizer-info");
 const summarizerForm = document.querySelector("#summarizer-form");
 const summarizerOutput = document.querySelector("#summarizer-output");
+const summarizerContent = document.querySelector("#summarizer-content");
+const summarizerPromptToggle = document.querySelector("#summarizer-prompt-toggle");
+const summarizerPromptContainer = document.querySelector("#summarizer-prompt-container");
 const languageDetectorContainer = document.querySelector("#language-detector-container");
 const languageDetectorPrompt = document.querySelector("#language-detector-prompt");
 const translatorPrompt = document.querySelector("#translator-prompt");
 
 let availability;
 let summarizer;
+
+if (summarizerPromptToggle) {
+  summarizerPromptToggle.addEventListener("click", () => {
+    summarizerPromptContainer.classList.toggle("sr-only");
+  });
+}
 
 if ("Summarizer" in self) {
   console.info("Summarizer API is supported.");
@@ -65,7 +76,6 @@ if (summarizerForm) {
 
     const formData = new FormData(summarizerForm);
     const options = {
-      sharedContext: formData.get("context").trim(),
       type: formData.get("type"),
       format: formData.get("format"),
       length: formData.get("length"),
@@ -76,6 +86,7 @@ if (summarizerForm) {
     for await (const chunk of stream) {
       summarizerInfo.textContent = "Writing ...";
       summarizerOutput.append(chunk);
+      summarizerContent.innerHTML = marked.parse(summarizerOutput.textContent);
       languageDetectorPrompt.append(chunk);
       translatorPrompt.append(chunk);
     }

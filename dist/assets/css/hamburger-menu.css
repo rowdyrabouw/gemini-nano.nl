@@ -1,7 +1,7 @@
 .navMenu {
   width: fit-content;
   color: rgb(255, 255, 255);
-  background: linear-gradient(rgb(21, 26, 41) 0%, rgb(2, 54, 93) 50%, rgb(84, 120, 146) 75%, rgb(255, 255, 255) 100%);
+  background: linear-gradient(#131931 0%, #131931 50%, #1d2f60 100%);
   border-inline-end: 4px solid rgb(255, 255, 255);
   overflow: hidden;
   position: fixed;

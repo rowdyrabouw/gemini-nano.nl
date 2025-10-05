@@ -1,3 +1,5 @@
+import { marked } from "./marked.esm.js";
+
 const apiSupport = document.querySelector("api-support");
 const promptStatus = apiSupport.shadowRoot.querySelector("#prompt-status");
 const promptDownloadButton = apiSupport.shadowRoot.querySelector("#prompt-download");
@@ -7,13 +9,15 @@ const promptAudioForm = document.querySelector("#prompt-audio-form");
 const promptImageForm = document.querySelector("#prompt-image-form");
 const promptPoemForm = document.querySelector("#prompt-poem-form");
 const promptOutput = document.querySelector("#prompt-output");
+const promptImageContent = document.querySelector("#prompt-image-content");
+const promptAudioContent = document.querySelector("#prompt-audio-content");
 
 let availability;
 let languageModel;
 
 if ("LanguageModel" in self) {
   console.info("Prompt API is supported.");
-  availability = await LanguageModel.availability();
+  availability = await LanguageModel.availability({ expectedOutputs: [{ type: "text", languages: ["en"] }] });
   console.info(`Prompt API is ${availability}.`);
   promptStatus.textContent = availability;
   promptStatus.classList.remove("status-checking");
@@ -71,6 +75,7 @@ if (promptAudioForm) {
     const params = await LanguageModel.params();
     const session = await LanguageModel.create({
       expectedInputs: [{ type: "audio" }],
+      expectedOutputs: [{ type: "text", languages: ["en"] }],
       temperature: 0.1,
       topK: params.defaultTopK,
     });
@@ -88,6 +93,7 @@ if (promptAudioForm) {
     for await (const chunk of stream) {
       promptInfo.textContent = "Transcribing ...";
       promptOutput.textContent += chunk;
+      promptAudioContent.innerHTML = marked.parse(promptOutput.textContent);
     }
 
     const endTime = performance.now();
@@ -116,6 +122,7 @@ if (promptImageForm) {
 
     const session = await LanguageModel.create({
       expectedInputs: [{ type: "audio" }, { type: "image" }],
+      expectedOutputs: [{ type: "text", languages: ["en"] }],
     });
     const referenceImage = await (await fetch("/assets/img/gemini5.jpg")).blob();
 
@@ -134,6 +141,7 @@ if (promptImageForm) {
     for await (const chunk of stream) {
       promptInfo.textContent = "Describing ...";
       promptOutput.textContent += chunk;
+      promptImageContent.innerHTML = marked.parse(promptOutput.textContent);
     }
 
     const endTime = performance.now();
@@ -160,7 +168,10 @@ if (promptPoemForm) {
     const formData = new FormData(promptPoemForm);
     const startTime = performance.now();
 
-    const session = await LanguageModel.create();
+    const session = await LanguageModel.create({
+      expectedInputs: [{ type: "text", languages: ["en"] }],
+      expectedOutputs: [{ type: "text", languages: ["en"] }],
+    });
     const stream = session.promptStreaming([
       {
         role: "user",

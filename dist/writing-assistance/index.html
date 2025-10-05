@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gemini Nano</title>
     <link rel="stylesheet" href="../assets/css/style.css" />
-    <link rel="preload" href="/assets/fonts/Avenir-Roman.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/nasa.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/avenir-next-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/avenir-next-bold.woff2" as="font" type="font/woff2" crossorigin />
     <script type="module" src="/assets/js/api-support.js"></script>
     <script src="/assets/js/writer.js" type="module" defer></script>
     <script src="/assets/js/rewriter.js" type="module" defer></script>
@@ -83,13 +85,14 @@
         </form>
         <p id="writer-error" aria-atomic="true" aria-live="assertive"></p>
         <p id="writer-info" aria-atomic="true" aria-live="polite"></p>
-        <pre id="writer-output" class="output" aria-atomic="false" aria-live="polite"></pre>
+        <pre id="writer-output" class="sr-only" aria-atomic="false" aria-live="polite"></pre>
+        <div id="writer-content" class="content"></div>
       </section>
 
       <section id="rewriter-container" hidden>
-        <h2>Rewriter API</h2>
+        <h2>Rewriter API<button type="button" id="rewriter-prompt-toggle" class="promptToggle" aria-hidden="true">🫣</button></h2>
         <form id="rewriter-form">
-          <div>
+          <div id="rewriter-prompt-container" class="sr-only">
             <label for="rewriter-prompt">Prompt</label>
             <textarea id="rewriter-prompt" name="prompt"></textarea>
           </div>
@@ -148,21 +151,18 @@
         </form>
         <p id="rewriter-error" aria-atomic="true" aria-live="assertive"></p>
         <p id="rewriter-info" aria-atomic="true" aria-live="polite"></p>
-        <pre id="rewriter-output" class="output" aria-atomic="true" aria-live="polite"></pre>
+        <pre id="rewriter-output" class="sr-only" aria-atomic="false" aria-live="polite"></pre>
+        <div id="rewriter-content" class="content"></div>
       </section>
 
       <section id="summarizer-container" hidden>
-        <h2>Summarizer API</h2>
+        <h2>Summarizer API<button type="button" id="summarizer-prompt-toggle" class="promptToggle" aria-hidden="true">🫣</button></h2>
         <form id="summarizer-form">
-          <div>
+          <div id="summarizer-prompt-container" class="sr-only">
             <label for="summarizer-prompt">Prompt</label>
             <textarea id="summarizer-prompt" name="prompt"></textarea>
           </div>
           <div>
-            <label for="summarizer-context">Context</label>
-            <textarea type="text" id="summarizer-context" name="context">This is for children</textarea>
-          </div>
-            <div>
             <fieldset>
               <legend>Type</legend>
               <label>
@@ -182,8 +182,8 @@
               headline
               </label>
             </fieldset>
-            </div>
-            <div>
+          </div>
+          <div>
             <fieldset>
               <legend>Format</legend>
               <label>
@@ -195,8 +195,8 @@
               plain-text
               </label>
             </fieldset>
-            </div>
-            <div>
+          </div>
+          <div>
             <fieldset>
               <legend>Length</legend>
               <label>
@@ -212,18 +212,19 @@
               long
               </label>
             </fieldset>
-            </div>
+          </div>
           <button type="submit">Summarize</button>
         </form>
         <p id="summarizer-error" aria-atomic="true" aria-live="assertive"></p>
         <p id="summarizer-info" aria-atomic="true" aria-live="polite"></p>
-        <pre id="summarizer-output" class="output" aria-atomic="true" aria-live="polite"></pre>
+        <pre id="summarizer-output" class="sr-only" aria-atomic="false" aria-live="polite"></pre>
+        <div id="summarizer-content" class="content"></div>
       </section>
 
       <section id="language-detector-container" hidden>
-        <h2>Language Detector API</h2>
+        <h2>Language Detector API<button type="button" id="language-detector-prompt-toggle" class="promptToggle" aria-hidden="true">🫣</button></h2>
         <form id="language-detector-form">
-          <div>
+          <div id="language-detector-prompt-container" class="sr-only">
             <label for="language-detector-prompt">Prompt</label>
             <textarea id="language-detector-prompt" name="prompt"></textarea>
           </div>
@@ -235,9 +236,9 @@
       </section>
 
       <section id="translator-container" hidden>
-        <h2>Translator API</h2>
+        <h2>Translator API<button type="button" id="translator-prompt-toggle" class="promptToggle" aria-hidden="true">🫣</button></h2>
         <form id="translator-form">
-          <div>
+          <div id="translator-prompt-container" class="sr-only">
             <label for="translator-prompt">Prompt</label>
             <textarea id="translator-prompt" name="prompt"></textarea>
           </div>
@@ -363,7 +364,8 @@
         </form>
         <p id="translator-error" aria-atomic="true" aria-live="assertive"></p>
         <p id="translator-info" aria-atomic="true" aria-live="polite"></p>
-        <pre id="translator-output" class="output" aria-atomic="true" aria-live="polite"></pre>
+        <pre id="translator-output" class="sr-only" aria-atomic="false" aria-live="polite"></pre>
+        <div id="translator-content" class="content"></div>
       </section>
 
     <main>

@@ -1,9 +1,12 @@
+import { marked } from "./marked.esm.js";
+
 const apiSupport = document.querySelector("api-support");
 const proofReaderStatus = apiSupport.shadowRoot.querySelector("#proofreader-status");
 const proofReaderDownloadButton = apiSupport.shadowRoot.querySelector("#proofreader-download");
 const proofReaderInfo = document.querySelector("#proofreader-info");
 const proofReaderForm = document.querySelector("#proofreader-form");
 const proofReaderOutput = document.querySelector("#proofreader-output");
+const proofReaderContent = document.querySelector("#proofreader-content");
 
 let availability;
 let proofReader;
@@ -55,21 +58,23 @@ if (proofReaderForm) {
 
     const formData = new FormData(proofReaderForm);
     /* options for the proofreader are defined in the specification, but not implemented in Chrome yet */
-    /*
-    const options = {
-      includeCorrectionTypes: true,
-      includeCorrectionExplanations: true,
-      expectedInputLanguagues: ["en"],
-      correctionExplanationLanguage: "en",
-    };
-    const proofreader = await Proofreader.create(options);
-    */
+
+    // const options = {
+    //   includeCorrectionTypes: true,
+    //   includeCorrectionExplanations: true,
+    //   expectedInputLanguagues: ["en"],
+    //   correctionExplanationLanguage: "en",
+    // };
     const startTime = performance.now();
+    // const proofreader = await Proofreader.create(options);
+
     const proofreader = await Proofreader.create();
     proofReaderInfo.textContent = "Proofreading ...";
 
     const corrections = await proofreader.proofread(formData.get("prompt").trim());
+    console.info("Corrections:", corrections);
     proofReaderOutput.textContent = corrections.correctedInput;
+    proofReaderContent.innerHTML = marked.parse(proofReaderOutput.textContent);
 
     const endTime = performance.now();
     const seconds = ((endTime - startTime) / 1000).toFixed(2);

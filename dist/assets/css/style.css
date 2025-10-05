@@ -1,14 +1,22 @@
 @font-face {
   font-family: "Nasa";
-  src: url("../fonts/Nasa.woff2") format("woff2");
+  src: url("../fonts/nasa.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Avenir";
-  src: url("../fonts/Avenir-Roman.woff2") format("woff2");
+  font-family: "Avenir Next";
+  src: url("../fonts/avenir-next-regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Avenir Next Bold";
+  src: url("../fonts/avenir-next-bold.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -18,18 +26,28 @@ html,
 body {
   height: 100%;
   width: 100%;
+}
+
+html {
   background-color: rgb(2, 54, 93);
+  &:before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(to right, rgba(21, 26, 41, 0.73) 0 100%), url(../img/nebula.jpg);
+    background-size: cover;
+    background-position: center center;
+    z-index: -1;
+  }
 }
 
 body {
-  font-family: "Avenir", sans-serif;
-  background-color: rgb(2, 54, 93);
+  font-family: "Avenir Next", sans-serif;
   color: rgb(255, 255, 255);
   font-size: 1.25rem;
   margin: 0;
   padding: 0;
-  accent-color: rgb(255, 218, 49);
-  background: linear-gradient(rgb(21, 26, 41) 0%, rgb(2, 54, 93) 100%);
+  accent-color: #e4a073;
 }
 
 header {
@@ -45,7 +63,6 @@ main {
 }
 
 body:has(main.start-page) {
-  /* padding: 32px; */
   height: 100%;
   background: url("/assets/img/gemini.jpg");
   background-position: center center;
@@ -109,22 +126,29 @@ pre {
 }
 
 button {
-  background-color: rgb(2, 54, 93);
-  color: white;
-  padding: 12px 24px;
+  background-color: white;
+  color: #060a3d;
+  padding: 8px 16px;
   font-size: 1.25rem;
   cursor: pointer;
   border-radius: 4px;
-  border: 1px solid rgb(255, 255, 255);
+  border: 2px solid #e4a073;
+  &:hover {
+    background-color: #e4a073;
+    border-color: white;
+  }
 }
 
 label {
   display: inline-block;
   width: 175px;
 }
+
 textarea,
 input {
   font-size: 1rem;
+  background: transparent;
+  color: white;
 }
 
 textarea {
@@ -132,8 +156,9 @@ textarea {
   padding: 12px 16px;
   border-radius: 4px;
   border: 1px solid rgb(255, 255, 255);
-  field-sizing: content;
   max-width: 80ch;
+  height: auto;
+  field-sizing: content;
 }
 
 fieldset {
@@ -184,4 +209,47 @@ figcaption {
   display: block;
   padding-block-start: 0.5rem;
   padding-block-end: 0.5rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.content {
+  max-width: 80ch;
+  margin-block: 24px;
+  text-align: initial;
+  margin: 0 auto;
+  h1,
+  h2 {
+    font-family: "Avenir Next Bold", sans-serif;
+    font-size: inherit;
+    text-transform: none;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    text-decoration-color: #e4a073;
+    text-align: initial;
+    color: #e4a073;
+  }
+}
+
+.promptToggle {
+  font-size: 1rem;
+  margin-inline-start: 16px;
+  padding: 4px 8px;
+  vertical-align: middle;
+  background-color: transparent;
+}
+
+pre {
+  font-family: "Avenir Next", sans-serif;
+  line-height: 1.5;
 }

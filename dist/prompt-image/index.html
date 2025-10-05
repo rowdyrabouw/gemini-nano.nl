@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gemini Nano</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
-    <link rel="preload" href="/assets/fonts/Avenir-Roman.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/nasa.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/avenir-next-regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/avenir-next-bold.woff2" as="font" type="font/woff2" crossorigin />
     <script type="module" src="/assets/js/api-support.js"></script>
     <script src="/assets/js/prompt.js" type="module" defer></script>
     <script src="/assets/js/browser-check.js" type="module" defer></script>
@@ -40,7 +42,8 @@
         </form>
         <p id="prompt-error" aria-atomic="true" aria-live="assertive"></p>
         <p id="prompt-info" aria-atomic="true" aria-live="polite"></p>
-        <pre id="prompt-output" class="output" aria-atomic="false" aria-live="polite"></pre>
+        <pre id="prompt-output" class="sr-only" aria-atomic="false" aria-live="polite"></pre>
+        <div id="prompt-image-content" class="content" aria-hidden="true"></div>
       </section>
     </main>
   </body>

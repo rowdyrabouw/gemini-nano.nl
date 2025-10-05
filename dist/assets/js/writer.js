@@ -1,3 +1,5 @@
+import { marked } from "./marked.esm.js";
+
 const apiSupport = document.querySelector("api-support");
 const writerStatus = apiSupport.shadowRoot.querySelector("#writer-status");
 const writerDownloadButton = apiSupport.shadowRoot.querySelector("#writer-download");
@@ -5,6 +7,7 @@ const writerError = document.querySelector("#writer-error");
 const writerInfo = document.querySelector("#writer-info");
 const writerForm = document.querySelector("#writer-form");
 const writerOutput = document.querySelector("#writer-output");
+const writerContent = document.querySelector("#writer-content");
 const rewriterContainer = document.querySelector("#rewriter-container");
 const rewriterPrompt = document.querySelector("#rewriter-prompt");
 
@@ -68,6 +71,7 @@ if (writerForm) {
       tone: formData.get("tone"),
       format: formData.get("format"),
       length: formData.get("length"),
+      outputLanguage: "en",
     };
     const startTime = performance.now();
     writer = await Writer.create(options);
@@ -75,6 +79,7 @@ if (writerForm) {
     for await (const chunk of stream) {
       writerInfo.textContent = "Writing ...";
       writerOutput.append(chunk);
+      writerContent.innerHTML = marked.parse(writerOutput.textContent);
       rewriterPrompt.append(chunk);
     }
     const endTime = performance.now();
