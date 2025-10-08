@@ -60,6 +60,7 @@ class HamburgerMenu extends HTMLElement {
               <li><a id="home" href="/">Home</a></li>
               <li><a id="writing-assistance" href="/writing-assistance">Writing Assistance</a></li>
               <li><a id="proofreader" href="/proofreader">Proofreader</a></li>
+              <li><a id="prompt" href="/prompt">Prompt</a></li>
               <li><a id="prompt-image" href="/prompt-image">Prompt Image</a></li>
               <li><a id="prompt-audio" href="/prompt-audio">Prompt Audio</a></li>
               <li><a id="prompt-poem" href="/prompt-poem">Prompt Poem</a></li>

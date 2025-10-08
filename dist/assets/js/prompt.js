@@ -8,9 +8,11 @@ const promptInfo = document.querySelector("#prompt-info");
 const promptAudioForm = document.querySelector("#prompt-audio-form");
 const promptImageForm = document.querySelector("#prompt-image-form");
 const promptPoemForm = document.querySelector("#prompt-poem-form");
+const promptForm = document.querySelector("#prompt-form");
 const promptOutput = document.querySelector("#prompt-output");
 const promptImageContent = document.querySelector("#prompt-image-content");
 const promptAudioContent = document.querySelector("#prompt-audio-content");
+const promptContent = document.querySelector("#prompt-content");
 
 let availability;
 let languageModel;
@@ -186,6 +188,51 @@ if (promptPoemForm) {
     for await (const chunk of stream) {
       promptInfo.textContent = "Generating ...";
       promptOutput.textContent += chunk;
+    }
+
+    const endTime = performance.now();
+    const seconds = ((endTime - startTime) / 1000).toFixed(2);
+    promptInfo.textContent = `Done in ${seconds} seconds!`;
+    console.info(`Request took ${seconds} seconds`);
+  });
+}
+
+if (promptForm) {
+  promptForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (availability !== "available") {
+      promptError.classList.add("error");
+      promptError.textContent = `Prompt API is ${availability}.`;
+      console.error(`Prompt API is ${availability}.`);
+      return;
+    }
+
+    promptInfo.textContent = "Thinking ...";
+    promptOutput.textContent = "";
+
+    const formData = new FormData(promptForm);
+    const startTime = performance.now();
+
+    const session = await LanguageModel.create({
+      expectedInputs: [{ type: "text", languages: ["en"] }],
+      expectedOutputs: [{ type: "text", languages: ["ja"] }],
+    });
+    const stream = session.promptStreaming([
+      {
+        role: "user",
+        content: [
+          {
+            type: "text",
+            value: formData.get("prompt").trim(),
+          },
+        ],
+      },
+    ]);
+    for await (const chunk of stream) {
+      promptInfo.textContent = "Generating ...";
+      promptOutput.textContent += chunk;
+      promptContent.innerHTML = marked.parse(promptOutput.textContent);
     }
 
     const endTime = performance.now();
