@@ -16,7 +16,7 @@ let writer;
 
 if ("Writer" in self) {
   console.info("Writer API is supported.");
-  availability = await Writer.availability();
+  availability = await Writer.availability({ outputLanguage: "en" });
   console.info(`Writer API is ${availability}.`);
   writerStatus.textContent = availability;
   writerStatus.classList.remove("status-checking");
@@ -37,6 +37,7 @@ writerDownloadButton.addEventListener("click", async () => {
   writerStatus.classList.add("status-downloading");
 
   writer = await Writer.create({
+    outputLanguage: "en",
     monitor(m) {
       m.addEventListener("downloadprogress", (e) => {
         writerStatus.textContent = `downloading (${(e.loaded * 100).toFixed(2)}%)`;

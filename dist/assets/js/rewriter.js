@@ -24,7 +24,7 @@ if (reWriterPromptToggle) {
 
 if ("Rewriter" in self) {
   console.info("Rewriter API is supported.");
-  availability = await Rewriter.availability();
+  availability = await Rewriter.availability({ outputLanguage: "en" });
   console.info(`Rewriter API is ${availability}.`);
   reWriterStatus.textContent = availability;
   reWriterStatus.classList.remove("status-checking");
@@ -45,6 +45,7 @@ reWriterDownloadButton.addEventListener("click", async () => {
   reWriterStatus.classList.add("status-downloading");
 
   reWriter = await Rewriter.create({
+    outputLanguage: "en",
     monitor(m) {
       m.addEventListener("downloadprogress", (e) => {
         reWriterStatus.textContent = `downloading (${(e.loaded * 100).toFixed(2)}%)`;
@@ -79,6 +80,7 @@ if (reWriterForm) {
       tone: formData.get("tone"),
       format: formData.get("format"),
       length: formData.get("length"),
+      outputLanguage: "en",
     };
     const startTime = performance.now();
     reWriter = await Rewriter.create(options);

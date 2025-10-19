@@ -25,7 +25,7 @@ if (summarizerPromptToggle) {
 
 if ("Summarizer" in self) {
   console.info("Summarizer API is supported.");
-  availability = await Summarizer.availability();
+  availability = await Summarizer.availability({ outputLanguage: "en" });
   console.info(`Summarizer API is ${availability}.`);
   summarizerStatus.textContent = availability;
   summarizerStatus.classList.remove("status-checking");
@@ -46,6 +46,7 @@ summarizerDownloadButton.addEventListener("click", async () => {
   summarizerStatus.classList.add("status-downloading");
 
   summarizer = await Summarizer.create({
+    outputLanguage: "en",
     monitor(m) {
       m.addEventListener("downloadprogress", (e) => {
         summarizerStatus.textContent = `downloading (${(e.loaded * 100).toFixed(2)}%)`;
@@ -79,6 +80,7 @@ if (summarizerForm) {
       type: formData.get("type"),
       format: formData.get("format"),
       length: formData.get("length"),
+      outputLanguage: "en",
     };
     const startTime = performance.now();
     summarizer = await Summarizer.create(options);

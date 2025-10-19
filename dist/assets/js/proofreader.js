@@ -17,7 +17,7 @@ let availability;
 
 if ("Proofreader" in self) {
   console.info("Proofreader API is supported.");
-  availability = await Proofreader.availability();
+  availability = await Proofreader.availability({ correctionExplanationLanguage: "en" });
   console.info(`Proofreader API is ${availability}.`);
   proofReaderStatus.textContent = availability;
   proofReaderStatus.classList.remove("status-checking");
@@ -39,6 +39,7 @@ proofReaderDownloadButton.addEventListener("click", async () => {
   proofReaderStatus.classList.add("status-downloading");
 
   proofReader = await Proofreader.create({
+    correctionExplanationLanguage: "en",
     monitor(m) {
       m.addEventListener("downloadprogress", (e) => {
         proofReaderStatus.textContent = `downloading (${(e.loaded * 100).toFixed(2)}%)`;
