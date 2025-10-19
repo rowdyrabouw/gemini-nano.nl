@@ -186,10 +186,6 @@ section.center {
   text-align: center;
 }
 
-audio {
-  margin-block-end: 24px;
-}
-
 .prompt-image {
   width: 100%;
   max-width: 450px;

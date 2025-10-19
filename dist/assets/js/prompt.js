@@ -1,4 +1,5 @@
 import { marked } from "./marked.esm.js";
+import { audio } from "./record-audio.js";
 
 const apiSupport = document.querySelector("api-support");
 const promptStatus = apiSupport.shadowRoot.querySelector("#prompt-status");
@@ -69,10 +70,24 @@ if (promptAudioForm) {
     promptOutput.textContent = "";
 
     const formData = new FormData(promptAudioForm);
+    const action = formData.get("action");
     const startTime = performance.now();
 
-    const blob = await (await fetch("/assets/audio/neil.mp3")).blob();
-    const arrayBuffer = await blob.arrayBuffer();
+    let arrayBuffer;
+
+    if (["transcribe-mp3", "describe-mp3"].includes(action)) {
+      const blob = await (await fetch("/assets/audio/neil.mp3")).blob();
+      arrayBuffer = await blob.arrayBuffer();
+    } else if (["transcribe-recording", "describe-recording"].includes(action)) {
+      arrayBuffer = await audio.arrayBuffer();
+    }
+
+    let prompt;
+    if (["transcribe-mp3", "transcribe-recording"].includes(action)) {
+      prompt = "Transcribe this audio file";
+    } else if (["describe-mp3", "describe-recording"].includes(action)) {
+      prompt = "Describe this audio file in detail";
+    }
 
     const params = await LanguageModel.params();
     const session = await LanguageModel.create({
@@ -86,7 +101,7 @@ if (promptAudioForm) {
       {
         role: "user",
         content: [
-          { type: "text", value: formData.get("prompt").trim() },
+          { type: "text", value: prompt },
           { type: "audio", value: arrayBuffer },
         ],
       },

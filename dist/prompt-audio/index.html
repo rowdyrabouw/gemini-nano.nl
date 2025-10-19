@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gemini Nano</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="stylesheet" href="./style.css" />
     <link rel="preload" href="/assets/fonts/nasa.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/avenir-next-regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/avenir-next-bold.woff2" as="font" type="font/woff2" crossorigin />
@@ -25,12 +26,33 @@
 
       <section class="center">
         <audio id="audioElement" controls src="/assets/audio/neil.mp3"></audio>
+        <button id="record-audio-button" type="button">record audio</button>
+        <audio id="recorded-audio" controls hidden></audio>
+      </section>
+      <section>
         <form id="prompt-audio-form">
           <div>
-            <label for="prompt-audio-prompt">Prompt</label>
-            <textarea id="prompt-audio-prompt" name="prompt">Transcribe this audio file</textarea>
+            <fieldset>
+              <legend class="sr-only">Action</legend>
+              <div>
+                <input type="radio" id="transcribe-mp3" name="action" value="transcribe-mp3" checked />
+                <label for="transcribe-mp3">Transcribe audio file</label>
+              </div>
+              <div>
+                <input type="radio" id="describe-mp3" name="action" value="describe-mp3" />
+                <label for="describe-mp3">Describe audio file</label>
+              </div>
+              <div>
+                <input type="radio" id="transcribe-recording" name="action" value="transcribe-recording" />
+                <label for="transcribe-recording">Transcribe recording</label>
+              </div>
+              <div>
+                <input type="radio" id="describe-recording" name="action" value="describe-recording" />
+                <label for="describe-recording">Describe recording</label>
+              </div>
+            </fieldset>
           </div>
-          <button type="submit">Transcribe</button>
+          <button type="submit">Submit</button>
         </form>
         <p id="prompt-error" aria-atomic="true" aria-live="assertive"></p>
         <p id="prompt-info" aria-atomic="true" aria-live="polite"></p>

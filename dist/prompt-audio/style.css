@@ -1,0 +1,27 @@
+.center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-block-end: 24px;
+}
+#record-audio-button {
+  width: 301px;
+  height: 54px;
+  border-radius: 44px;
+  border: 0;
+  background-color: #f2f3f4;
+  font-size: 1rem;
+}
+fieldset {
+  margin: 0 auto;
+  label {
+    width: fit-content;
+    margin-inline-start: 4px;
+    margin-inline-end: 16px;
+  }
+}
+button[type="submit"] {
+  display: block;
+  margin: 0 auto;
+}
