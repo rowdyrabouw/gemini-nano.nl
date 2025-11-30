@@ -74,6 +74,7 @@ if (summarizerForm) {
     summarizerInfo.textContent = "Thinking ...";
     summarizerOutput.textContent = "";
     languageDetectorPrompt.textContent = "";
+    translatorPrompt.textContent = "";
 
     const formData = new FormData(summarizerForm);
     const options = {

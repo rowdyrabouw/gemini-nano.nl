@@ -25,6 +25,9 @@
     }
   }
   &.status-container-vertical {
+    position: absolute;
+    top: 380px;
+    left: 24px;
     flex-direction: column;
     span:first-child {
       width: 150px;

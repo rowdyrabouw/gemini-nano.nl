@@ -55,7 +55,6 @@ class HamburgerMenu extends HTMLElement {
         <nav aria-labelledby="hamburger">
           <button id="hamburger" class="button hamburger" aria-label="Show Navigation Menu" aria-expanded="false">☰</button>
           <div id="navMenu" class="navMenu hidden">
-            <button id="closeNavMenu" class="button closeBtn" aria-label="Hide Navigation Menu">×</button>
             <ul>
               <li><a id="home" href="/">Home</a></li>
               <li><a id="writing-assistance" href="/writing-assistance">Writing Assistance</a></li>

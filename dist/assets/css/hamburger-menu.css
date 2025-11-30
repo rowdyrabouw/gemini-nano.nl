@@ -1,14 +1,11 @@
 .navMenu {
   width: fit-content;
   color: rgb(255, 255, 255);
-  background: linear-gradient(#131931 0%, #131931 50%, #1d2f60 100%);
-  border-inline-end: 4px solid rgb(255, 255, 255);
   overflow: hidden;
   position: fixed;
-  height: 100%;
   z-index: 10;
   position: absolute;
-  top: 0;
+  top: 60px;
   left: -4px;
 }
 
@@ -46,6 +43,8 @@ ul {
   list-style: none;
   padding: 1.4em;
   line-height: 1.4;
+  margin: 0;
+  padding-block-start: 0.5em;
 }
 
 ul li {

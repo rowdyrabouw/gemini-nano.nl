@@ -34,7 +34,7 @@ html {
     content: "";
     position: fixed;
     inset: 0;
-    background-image: linear-gradient(to right, rgba(21, 26, 41, 0.73) 0 100%), url(../img/nebula.jpg);
+    background-image: linear-gradient(to right, rgba(2, 8, 26, 0.73) 0 100%), url(../img/moon.jpg);
     background-size: cover;
     background-position: center center;
     z-index: -1;
@@ -47,7 +47,7 @@ body {
   font-size: 1.25rem;
   margin: 0;
   padding: 0;
-  accent-color: #e4a073;
+  accent-color: hsl(5, 83%, 53%);
 }
 
 header {
@@ -108,6 +108,10 @@ form > div {
   }
 }
 
+p {
+  line-height: 1.5;
+}
+
 pre {
   max-width: 80ch;
   white-space: pre-wrap;
@@ -132,16 +136,21 @@ button {
   font-size: 1.25rem;
   cursor: pointer;
   border-radius: 4px;
-  border: 2px solid #e4a073;
+  border: 2px solid hsl(106, 59%, 27%);
   &:hover {
-    background-color: #e4a073;
+    background-color: hsl(106, 59%, 27%);
     border-color: white;
+    color: rgb(255, 255, 255);
   }
 }
 
 label {
   display: inline-block;
   width: 175px;
+
+  &:has(input[type="radio"]:checked) {
+    color: hsl(5, 83%, 53%);
+  }
 }
 
 textarea,
@@ -230,10 +239,12 @@ figcaption {
     font-size: inherit;
     text-transform: none;
     text-decoration: underline;
-    text-underline-offset: 8px;
-    text-decoration-color: #e4a073;
+    text-underline-offset: 10px;
+    text-decoration-color: hsl(106, 59%, 27%);
+    text-decoration-thickness: 4px;
     text-align: initial;
-    color: #e4a073;
+    color: rgb(255, 255, 255);
+    margin-block: 32px;
   }
 }
 
